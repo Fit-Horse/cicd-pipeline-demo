@@ -90,7 +90,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 步骤 4: 提取元数据 (版本号等)
+      # 步骤 3: 提取 Docker 元数据 (版本号等)
       - name: 提取 Docker 元数据
         id: meta
         uses: docker/metadata-action@v5
@@ -111,27 +111,24 @@ jobs:
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.vendor=GitHub Actions
 
-      # 步骤 5: 构建并推送 Docker 镜像
+      # 步骤 4: 构建并推送 Docker 镜像（仅 amd64，避免多平台/QEMU 下 npm 报 255）
       - name: 构建并推送 Docker 镜像
         uses: docker/build-push-action@v5
         with:
           context: .
-          # 推送到 Docker Hub
           push: true
-          # 多平台：amd64（服务器/Intel）+ arm64（Apple Silicon M1/M2/M3）
-          platforms: linux/amd64,linux/arm64
-          # 生成的所有标签
+          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      # 步骤 6: 输出镜像信息
+      # 步骤 5: 输出镜像信息
       - name: 显示镜像信息
         run: |
           echo "✅ Docker 镜像构建并推送成功!"
           echo "镜像地址: ${{ env.IMAGE_NAME }}"
           echo "标签: ${{ steps.meta.outputs.tags }}"
 
-      # 步骤 7: 创建 GitHub Release (仅当推送 tag 时)
+      # 步骤 6: 创建 GitHub Release (仅当推送 tag 时)
       - name: 创建 GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/create-release@v1
