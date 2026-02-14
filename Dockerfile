@@ -11,8 +11,9 @@ WORKDIR /usr/src/app
 # 先复制依赖文件，利用层缓存
 COPY package*.json ./
 
-# 安装生产依赖
-RUN npm install --only=production
+# 安装生产依赖 (使用 --omit=dev，Node 18 中 --only=production 已弃用且可能报错)
+ENV NODE_ENV=production
+RUN npm install --omit=dev
 
 # 阶段 2: 运行镜像
 FROM node:18-alpine
