@@ -120,8 +120,6 @@ jobs:
           push: true
           # 只构建当前平台
           platforms: linux/amd64
-          # 使用默认 builder
-          builder: ''
           # 生成的所有标签
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
