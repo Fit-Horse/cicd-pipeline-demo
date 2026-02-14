@@ -85,7 +85,7 @@ jobs:
 
       # 步骤 2: 登录 Docker Hub
       - name: 登录 Docker Hub
-        uses: docker/login-action@v6
+        uses: docker/login-action@v2
 
       # 步骤 3: 登录 Docker Hub
       # 使用 GitHub Secrets 中存储的凭证
@@ -118,7 +118,7 @@ jobs:
 
       # 步骤 5: 构建并推送 Docker 镜像
       - name: 构建并推送 Docker 镜像
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v5
         with:
           context: .
           # 推送到 Docker Hub
