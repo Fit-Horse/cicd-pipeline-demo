@@ -142,6 +142,46 @@ docker run -d -p 3000:3000 --name my-app cicd-pipeline-demo
 
 容器启动后，访问 http://localhost:3000 查看应用。
 
+### 测试已推送到 Docker Hub 的镜像
+
+CI/CD 推送镜像到 Docker Hub 后，可以在本地拉取并验证镜像是否正常：
+
+**方式一：使用测试脚本（推荐）**
+
+```bash
+# 将 yourname 替换为你的 Docker Hub 用户名，main 可改为对应 tag（如 latest、v1.0.0）
+./scripts/test-docker-image.sh yourname/cicd-pipeline-demo:main
+
+# 或通过环境变量
+DOCKER_IMAGE=yourname/cicd-pipeline-demo:main ./scripts/test-docker-image.sh
+```
+
+脚本会自动：拉取镜像 → 启动容器 → 请求 `/health` 和 `/` → 校验响应 → 清理容器。
+
+**方式二：手动测试**
+
+```bash
+# 1. 拉取镜像（替换为你的镜像名）
+docker pull yourname/cicd-pipeline-demo:main
+
+# 2. 运行容器
+docker run -d -p 3000:3000 --name test-app yourname/cicd-pipeline-demo:main
+
+# 3. 检查健康接口
+curl http://localhost:3000/health
+
+# 4. 浏览器访问或 curl 主页
+curl -s http://localhost:3000 | head -20
+
+# 5. 查看日志（可选）
+docker logs test-app
+
+# 6. 停止并删除
+docker stop test-app && docker rm test-app
+```
+
+**预期结果**：`/health` 返回 `{"status":"active",...}`，`/` 返回 HTML 页面。
+
 ## CI/CD 流程说明
 
 ### 流程概览

@@ -118,8 +118,8 @@ jobs:
           context: .
           # 推送到 Docker Hub
           push: true
-          # 只构建当前平台
-          platforms: linux/amd64
+          # 多平台：amd64（服务器/Intel）+ arm64（Apple Silicon M1/M2/M3）
+          platforms: linux/amd64,linux/arm64
           # 生成的所有标签
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
