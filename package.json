@@ -1,0 +1,28 @@
+{
+  "name": "cicd-pipeline-demo",
+  "version": "1.0.0",
+  "description": "GitHub Actions + Docker CI/CD 流程演示项目",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "npx jest --coverage"
+  },
+  "keywords": [
+    "cicd",
+    "docker",
+    "github-actions",
+    "demo"
+  ],
+  "author": "MiniMax Agent",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
