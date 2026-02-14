@@ -52,7 +52,7 @@ jobs:
 
       # 步骤 3: 安装依赖
       - name: 安装依赖
-        run: npm ci
+        run: npm install
 
       # 步骤 4: 运行测试
       - name: 运行测试
